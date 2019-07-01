@@ -1,16 +1,23 @@
 package idnp.app.bicikm;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MenuMainActivity extends AppCompatActivity {
+public class MenuMainActivity extends AppCompatActivity implements
+        HomeFragment.OnFragmentInteractionListener,
+        HistorialFragment.OnFragmentInteractionListener,
+        RecompensasFragment.OnFragmentInteractionListener,
+        NotificationsFragment.OnFragmentInteractionListener{
     private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -21,18 +28,33 @@ public class MenuMainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
+                    HomeFragment homeFragment = new HomeFragment();
+                    openFragment(homeFragment);
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.navigation_historial:
+                    mTextMessage.setText(R.string.title_historial);
+                    HistorialFragment historialFragment = new HistorialFragment();
+                    openFragment(historialFragment);
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                case R.id.navigation_recompensas:
+                    mTextMessage.setText(R.string.title_recompensas);
+                    RecompensasFragment recompensasFragment = new RecompensasFragment();
+                    openFragment(recompensasFragment);
+                    return true;
+                case R.id.navigation_notificaciones:
+                    mTextMessage.setText(R.string.title_recompensas);
+                    NotificationsFragment notificationsFragment = new NotificationsFragment();
+                    openFragment(notificationsFragment);
                     return true;
             }
             return false;
         }
     };
-
+    private void openFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.container, fragment);
+        ft.commit();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,4 +64,8 @@ public class MenuMainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
