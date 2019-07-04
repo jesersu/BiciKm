@@ -27,22 +27,22 @@ public class MenuMainActivity extends AppCompatActivity implements
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    // mTextMessage.setText(R.string.title_home);
                     HomeFragment homeFragment = new HomeFragment();
                     openFragment(homeFragment);
                     return true;
                 case R.id.navigation_historial:
-                    mTextMessage.setText(R.string.title_historial);
+                    // mTextMessage.setText(R.string.title_historial);
                     HistorialFragment historialFragment = new HistorialFragment();
                     openFragment(historialFragment);
                     return true;
                 case R.id.navigation_recompensas:
-                    mTextMessage.setText(R.string.title_recompensas);
+                    // mTextMessage.setText(R.string.title_recompensas);
                     RecompensasFragment recompensasFragment = new RecompensasFragment();
                     openFragment(recompensasFragment);
                     return true;
                 case R.id.navigation_notificaciones:
-                    mTextMessage.setText(R.string.title_recompensas);
+                    // mTextMessage.setText(R.string.title_notificaciones);
                     NotificationsFragment notificationsFragment = new NotificationsFragment();
                     openFragment(notificationsFragment);
                     return true;

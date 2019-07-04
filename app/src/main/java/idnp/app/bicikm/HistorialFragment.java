@@ -5,10 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 
 /**
@@ -19,9 +23,12 @@ import android.view.ViewGroup;
  * Use the {@link HistorialFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HistorialFragment extends Fragment {
+public class HistorialFragment extends ListFragment implements AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    String[] users = new String[] { "Suresh","Rohini","Trishika","Praveen","Sateesh","Madhav" };
+    String[] location = new String[]{"Hyderabad","Guntur","Hyderabad","Bangalore","Vizag","Nagpur"};
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -91,6 +98,19 @@ public class HistorialFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.Planets, android.R.layout.simple_list_item_1);
+        setListAdapter(adapter);
+        getListView().setOnItemClickListener(this);
+    }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
     }
 
     /**
