@@ -10,13 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <ListView
+            android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:textSize="30sp"
-            android:id="@+id/tituloEstadisticas"
-            android:textAlignment="center"/>
+            android:layout_height="wrap_content"></ListView>
 
     </RelativeLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
