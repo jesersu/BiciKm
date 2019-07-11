@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "654855485944",
+    "firebase_url": "https://bicikm-10a3d.firebaseio.com",
+    "project_id": "bicikm-10a3d",
+    "storage_bucket": "bicikm-10a3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654855485944:android:6ee9f33b6cf2ff25",
+        "android_client_info": {
+          "package_name": "idnp.app.bicikm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654855485944-gp7di4t97rki6npo9493mt7hb65jqmjd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY5HlHjEoScRGXaIdH9ULLC-3G4R--LJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654855485944-gp7di4t97rki6npo9493mt7hb65jqmjd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
