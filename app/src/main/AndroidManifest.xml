@@ -25,7 +25,7 @@
             android:value="AIzaSyAZTcFyPGvj6_O5Tf3hxqG1-0jCTKRHdcQ" />
 
 
-        <activity android:name=".Login">
+        <activity android:name=".MenuMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +43,7 @@
             android:name=".RecompensasActivity"
             android:label="@string/title_activity_recompensas" />
         <activity
-            android:name=".MenuMainActivity"
+            android:name=".Login"
             android:label="@string/title_activity_menu_main" />
         <activity android:name=".MainActivity">
 
