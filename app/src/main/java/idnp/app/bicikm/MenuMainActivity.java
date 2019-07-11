@@ -3,6 +3,8 @@ package idnp.app.bicikm;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -134,6 +136,17 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
     String m;
     String s;
 
+    //Fecha y hora
+
+    String fechaYHora;
+
+    //Texto de Velociadad
+    TextView txt_vel;
+    TextView txt_velMed;
+    TextView txt_dist;
+    TextView txt_cal;
+    TextView txt_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,6 +187,13 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
         // Retrieve the content view that renders the map.
        // setContentView(R.layout.activity_menu_main);
+
+        //Estadistica:
+        txt_vel=findViewById(R.id.txt_vel);
+        txt_cal=findViewById(R.id.txt_calorias);
+        txt_velMed=findViewById(R.id.txt_velMed);
+        txt_dist=findViewById(R.id.txt_dist);
+        txt_time=findViewById(R.id.txt_time);
         //Fecha
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -217,6 +237,10 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         public void onClick(View v) {
 
             if(iniciado==false ){
+                txt_vel.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_velMed.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_dist.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_cal.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
                 if(contI==0){
 
                     ini = mMap.addMarker(new MarkerOptions()
@@ -365,30 +389,41 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                                     m = String.valueOf(min);
                                     s = String.valueOf(seg);
                                     Log.i("jjj","hora: "+hora+"minuto: "+m+"s:"+s);
+                                    fechaYHora=fecha+" "+h+":"+m+":"+s;
 
 
                                     Log.i("jjj","En recorrido::"+" distancia: "+distanciaEnMetros + " velocidad: "+ velocidad);
                                     temp=punto;
+                                    //Estadistica
+                                    String velo=String.valueOf(velocidad);
+                                    String dts=String.valueOf(distanciaEnMetros);
+                                    String vm=String.valueOf(velocidadMedia);
+                                    String cal=String.valueOf(getCalorias());
+                                    String tiempo=String.valueOf(h)+":"+String.valueOf(m)+":"+String.valueOf(s);
+
+                                    txt_vel.setText("Vel. "+velo.substring(0,4)+" m/s");
+                                    txt_dist.setText("Dist. "+dts.substring(0,3)+" m");
+                                    txt_velMed.setText("Vel. Med. "+vm.substring(0,4)+" m/s");
+                                    txt_cal.setText("Vel. "+cal.substring(0,3)+" Kal");
+                                    txt_time.setText("Tiempo: "+tiempo);
+
+
+
 
                                     //Enviando Datos
 
                                     String latitud = String.valueOf(mLastKnownLocation.getLatitude());
                                     String longitud = String.valueOf(mLastKnownLocation.getLongitude());
                                     String dist=String.valueOf(distanciaEnMetros);
+                                    //dist="100";
 
-                                    //guardarLocacion( id, fecha.toString(), latitud, longitud,dist);
-                                    MiTask5 task2 = new MiTask5();
-                                    //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
-                                    String url="http://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+dist;
+                                    guardarLocacion( id, fechaYHora.toString(), latitud, longitud,dist);
 
-                                    Log.i("url",url);
-                                    task2.execute(url);
                                 }
 
                                 else{
                                     Log.i("jjj","no se ha movido");
-                                }
-                            }
+                                } }
                             Log.i("xxx","Lat: "+ mLastKnownLocation.getLatitude()+ " Lomg: "+mLastKnownLocation.getLongitude() );
                           //  Log.i("jjj","fecha: "+ fecha);
 
@@ -409,7 +444,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
     public double getCalorias(){
         double kiloCalorias=0;
-        kiloCalorias=peso*(distanciaEnMetros/1000)*0.0175;
+        kiloCalorias=peso*(distanciaEnMetros/10);
         return kiloCalorias;
     }
 
@@ -468,7 +503,6 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         @Override
         protected String doInBackground(String... strings) {
             String result = enviarDatosRegistro(strings[0]);
-            Log.i("mario",strings[0]);
             return result;
         }
 
@@ -484,36 +518,36 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-    public void guardarLocacion(String id, String fecha, String latitud, String longitud, String distanci) {
+    public void guardarLocacion(String id, String fecha, String latitud, String longitud , String dist) {
         MiTask5 task = new MiTask5();
         //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
-        String url="https://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+distanci;
+       // String url="http://jashin.orgfree.com/Examen/guardarDatos.php?id="+id+"&fecha="+fecha+"&latitud="+latitud+"&longitud="+longitud+"&velocidad=12&angulo=12";
+        String url="http://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+dist;
 
-Log.i("url",url);
+
         task.execute(url);
         //enviarDatosRegistro(url);
 
     }
 
-    public String enviarDatosRegistro(String direct) {
-        Log.i("dir",direct);
+    public String enviarDatosRegistro(String direccion) {
+
         URL url = null;
         String linea = "";
-        int respect = 0;
+        int respuesta = 0;
         StringBuilder result = null;
 
         try {
-            url = new URL(direct);
-            HttpURLConnection connexions = (HttpURLConnection) url.openConnection();
-            connexions.setRequestMethod("GET");
-            connexions.setDoOutput(true);
-            connexions.setDoInput(true);
-            respect = connexions.getResponseCode();//200, 404
-            Log.i("resp",String.valueOf(respect));
+            url = new URL(direccion);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestMethod("GET");
+            conexion.setDoOutput(true);
+            conexion.setDoInput(true);
+            respuesta = conexion.getResponseCode();//200, 404
             result = new StringBuilder();
 
-            if (respect == HttpURLConnection.HTTP_OK) {
-                InputStream in = new BufferedInputStream(connexions.getInputStream()); //traemos la rpta
+            if (respuesta == HttpURLConnection.HTTP_OK) {
+                InputStream in = new BufferedInputStream(conexion.getInputStream()); //traemos la rpta
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //leemos la rpta
 
                 while ((linea = reader.readLine()) != null) {
