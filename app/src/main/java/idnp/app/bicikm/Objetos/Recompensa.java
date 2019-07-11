@@ -4,7 +4,7 @@ public class Recompensa {
     private String titulo;
     private String empresa;
     private String detalle;
-    private Double costo;
+    private String costo;
     private String foto;
 
     public String getTitulo() {
@@ -31,11 +31,11 @@ public class Recompensa {
         this.empresa = empresa;
     }
 
-    public Double getCosto() {
+    public String getCosto() {
         return costo;
     }
 
-    public void setCosto(Double costo) {
+    public void setCosto(String costo) {
         this.costo = costo;
     }
 
