@@ -30,10 +30,9 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
-   // implementation 'com.google.android.gms:play-services:18.0.0'
+    // implementation 'com.google.android.gms:play-services:18.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
-
 
 
     testImplementation 'junit:junit:4.12'

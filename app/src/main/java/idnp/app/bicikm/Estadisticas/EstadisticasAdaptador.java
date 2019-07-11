@@ -1,4 +1,4 @@
-package idnp.app.bicikm;
+package idnp.app.bicikm.Estadisticas;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import idnp.app.bicikm.Objetos.Recorrido;
+import idnp.app.bicikm.R;
 
 public class EstadisticasAdaptador extends BaseAdapter {
     List<Recorrido> recorridoList = new ArrayList<>();

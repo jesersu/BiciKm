@@ -5,19 +5,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MenuMainActivity">
+    tools:context=".Inicio.MenuMainActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="669dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
             tools:context="com.example.currentplacedetailsonmap.MapsActivityCurrentPlace" />
 
 
+
+        <EditText
+            android:id="@+id/txt_vel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="200dp"
+            android:layout_marginBottom="150dp"
+            android:background="@color/colorSecondary"
+            android:text="Velocidad" />
+
+        <EditText
+            android:id="@+id/txt_dist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="200dp"
+            android:background="@color/colorSecondary"
+            android:text="Distancia" />
+        <EditText
+            android:id="@+id/txt_calorias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="250dp"
+            android:background="@color/colorSecondary"
+            android:text="Calorias" />
+        <EditText
+            android:id="@+id/txt_velMed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="300dp"
+            android:background="@color/colorSecondary"
+            android:text="Velocida Media" />
+        <EditText
+            android:id="@+id/txt_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="350dp"
+            android:background="@color/colorSecondary"
+            android:text="Tiempo" />
+
+
+
+5
         <Button
             android:id="@+id/btnInicio"
             android:layout_width="wrap_content"
@@ -45,4 +121,5 @@
         app:itemIconTint="?android:attr/windowBackground"
         app:itemTextColor="?android:attr/windowBackground"
         app:menu="@menu/bottom_nav_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
