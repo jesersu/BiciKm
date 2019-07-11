@@ -20,9 +20,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".ServiciosActivity"
             android:label="@string/title_activity_servicios" /> <!-- android:theme="@style/AppTheme.NoActionBar" -->
@@ -35,9 +33,7 @@
         <activity
             android:name=".MenuMainActivity"
             android:label="@string/title_activity_menu_main" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
