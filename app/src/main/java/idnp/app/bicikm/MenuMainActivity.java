@@ -56,6 +56,8 @@ import java.util.Locale;
 
 public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+
+    String id="salazarmariot@gmail.com";
     Button inicio;
     private LocationRequest locationRequest;
     private boolean iniciado=false;
@@ -176,7 +178,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
-        fecha = dateFormat.format(date);
+        fecha = (String)dateFormat.format(date);
         Log.i("jjj","fecha: "+fecha);
 
         //hora
@@ -367,6 +369,20 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
                                     Log.i("jjj","En recorrido::"+" distancia: "+distanciaEnMetros + " velocidad: "+ velocidad);
                                     temp=punto;
+
+                                    //Enviando Datos
+
+                                    String latitud = String.valueOf(mLastKnownLocation.getLatitude());
+                                    String longitud = String.valueOf(mLastKnownLocation.getLongitude());
+                                    String dist=String.valueOf(distanciaEnMetros);
+
+                                    //guardarLocacion( id, fecha.toString(), latitud, longitud,dist);
+                                    MiTask5 task2 = new MiTask5();
+                                    //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
+                                    String url="http://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+dist;
+
+                                    Log.i("url",url);
+                                    task2.execute(url);
                                 }
 
                                 else{
@@ -452,6 +468,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         @Override
         protected String doInBackground(String... strings) {
             String result = enviarDatosRegistro(strings[0]);
+            Log.i("mario",strings[0]);
             return result;
         }
 
@@ -467,35 +484,36 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-    public void guardarLocacion(String id, String fecha, String latitud, String longitud) {
+    public void guardarLocacion(String id, String fecha, String latitud, String longitud, String distanci) {
         MiTask5 task = new MiTask5();
         //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
-        String url="http://https://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"$longitud="+longitud+"&fecha="+fecha;
+        String url="https://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+distanci;
 
-
+Log.i("url",url);
         task.execute(url);
         //enviarDatosRegistro(url);
 
     }
 
-    public String enviarDatosRegistro(String direccion) {
-
+    public String enviarDatosRegistro(String direct) {
+        Log.i("dir",direct);
         URL url = null;
         String linea = "";
-        int respuesta = 0;
+        int respect = 0;
         StringBuilder result = null;
 
         try {
-            url = new URL(direccion);
-            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
-            conexion.setRequestMethod("GET");
-            conexion.setDoOutput(true);
-            conexion.setDoInput(true);
-            respuesta = conexion.getResponseCode();//200, 404
+            url = new URL(direct);
+            HttpURLConnection connexions = (HttpURLConnection) url.openConnection();
+            connexions.setRequestMethod("GET");
+            connexions.setDoOutput(true);
+            connexions.setDoInput(true);
+            respect = connexions.getResponseCode();//200, 404
+            Log.i("resp",String.valueOf(respect));
             result = new StringBuilder();
 
-            if (respuesta == HttpURLConnection.HTTP_OK) {
-                InputStream in = new BufferedInputStream(conexion.getInputStream()); //traemos la rpta
+            if (respect == HttpURLConnection.HTTP_OK) {
+                InputStream in = new BufferedInputStream(connexions.getInputStream()); //traemos la rpta
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //leemos la rpta
 
                 while ((linea = reader.readLine()) != null) {
