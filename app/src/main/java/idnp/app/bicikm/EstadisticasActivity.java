@@ -10,18 +10,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class EstadisticasActivity extends AppCompatActivity {
-
+    String[] array = new String[] {
+            "Elemento 1"
+            ,"Elemento 2"
+            ,"Elemento 3"
+            ,"Elemento 4"
+            ,"Elemento 5"
+            ,"Elemento 6"
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas);
-
-        TextView title = findViewById(R.id.tituloEstadisticas);
-        title.setText("Activity Estadisticas");
-
+        // Navigation
         BottomNavigationView navigation = findViewById(R.id.nav_view);
         navigation.getMenu().findItem(R.id.navigation_estadisticas).setChecked(true);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,5 +52,9 @@ public class EstadisticasActivity extends AppCompatActivity {
                 return false;
             }
         });
+        // ListView
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview_row, array);
+        ListView mlistView = findViewById(R.id.list);
+        mlistView.setAdapter(adapter);
     }
 }
