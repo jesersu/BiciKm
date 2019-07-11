@@ -11,7 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,9 +70,18 @@ public class EstadisticasActivity extends AppCompatActivity {
         listaDet = findViewById(R.id.list);
         MiTask3 task = new MiTask3();
         String url = "https://bicikm.000webhostapp.com/buscarRecorridoById.php?id=" + stringId;
-
         task.execute(url);
+
+        listaDet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(EstadisticasActivity.this, EstadisticasMapa.class);
+                intent.putExtra("id", listaRecorridos.get(position).getUsuario());
+                startActivity(intent);
+            }
+        });
     }
+
     class MiTask3 extends AsyncTask<String, Void, String> {
 
         @Override
