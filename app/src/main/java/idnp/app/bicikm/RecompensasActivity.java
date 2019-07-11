@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 public class RecompensasActivity extends AppCompatActivity {
 
+    private TextView infoTextView2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,17 @@ public class RecompensasActivity extends AppCompatActivity {
 
         TextView title = findViewById(R.id.tituloRecompensas);
         title.setText("Activity Recompensas");
+
+        infoTextView2 = (TextView) findViewById(R.id.infoTextView2);
+
+        if(getIntent().getExtras() !=null){
+            for(String key : getIntent().getExtras().keySet()){
+                //if(key.equals("titulo") ){
+                String value = getIntent().getExtras().getString(key);
+                infoTextView2.append("\n" + key + ": " + value);
+                //}
+            }
+        }
 
         BottomNavigationView navigation = findViewById(R.id.nav_view);
         navigation.getMenu().findItem(R.id.navigation_recompensas).setChecked(true);
