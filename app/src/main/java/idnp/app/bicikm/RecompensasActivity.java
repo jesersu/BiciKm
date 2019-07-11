@@ -31,10 +31,10 @@ public class RecompensasActivity extends AppCompatActivity {
 
         if(getIntent().getExtras() !=null){
             for(String key : getIntent().getExtras().keySet()){
-                //if(key.equals("titulo") ){
-                String value = getIntent().getExtras().getString(key);
-                infoTextView2.append("\n" + key + ": " + value);
-                //}
+                if(key.equals((String)"titulo")||key.equals((String)"descripción")) {
+                    String value = getIntent().getExtras().getString(key);
+                    infoTextView2.append("\n" + key + ": " + value);
+                }
             }
         }
 
