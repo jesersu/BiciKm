@@ -3,6 +3,8 @@ package idnp.app.bicikm.Inicio;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,6 +62,9 @@ import idnp.app.bicikm.Servicios.ServiciosActivity;
 
 public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+
+    String id="salazarmariot@gmail.com";
+    //String id;
     Button inicio;
     private LocationRequest locationRequest;
     private boolean iniciado=false;
@@ -97,7 +102,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
     int tiempoRecorridoSegundos=0;
     int tiempoRecorridoMinutos=0;
-    int peso;
+    int peso=63;
     double caloriasTotales=0;
 
     //Velocidad Media:
@@ -135,6 +140,21 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
     String h;
     String m;
     String s;
+
+    //Fecha y hora
+
+    String fechaYHora;
+
+    //Texto de Velociadad
+    TextView txt_vel;
+    TextView txt_velMed;
+    TextView txt_dist;
+    TextView txt_cal;
+    TextView txt_time;
+
+    //Usuario
+
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,11 +196,22 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
         // Retrieve the content view that renders the map.
        // setContentView(R.layout.activity_menu_main);
+
+        //ID DE USUARIO
+        //id = getIntent().getStringExtra("usuarioId");
+        token = getIntent().getStringExtra("usuarioToken");
+
+        //Estadistica:
+        txt_vel=findViewById(R.id.txt_vel);
+        txt_cal=findViewById(R.id.txt_calorias);
+        txt_velMed=findViewById(R.id.txt_velMed);
+        txt_dist=findViewById(R.id.txt_dist);
+        txt_time=findViewById(R.id.txt_time);
         //Fecha
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
-        fecha = dateFormat.format(date);
+        fecha = (String)dateFormat.format(date);
         Log.i("jjj","fecha: "+fecha);
 
         //hora
@@ -219,6 +250,10 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         public void onClick(View v) {
 
             if(iniciado==false ){
+                txt_vel.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_velMed.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_dist.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_cal.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
                 if(contI==0){
 
                     ini = mMap.addMarker(new MarkerOptions()
@@ -367,16 +402,41 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                                     m = String.valueOf(min);
                                     s = String.valueOf(seg);
                                     Log.i("jjj","hora: "+hora+"minuto: "+m+"s:"+s);
+                                    fechaYHora=fecha+" "+h+":"+m+":"+s;
 
 
                                     Log.i("jjj","En recorrido::"+" distancia: "+distanciaEnMetros + " velocidad: "+ velocidad);
                                     temp=punto;
+                                    //Estadistica
+                                    String velo=String.valueOf(velocidad);
+                                    String dts=String.valueOf(distanciaEnMetros);
+                                    String vm=String.valueOf(velocidadMedia);
+                                    String cal=String.valueOf(getCalorias());
+                                    String tiempo=String.valueOf(h)+":"+String.valueOf(m)+":"+String.valueOf(s);
+
+                                    txt_vel.setText("Vel. "+velo.substring(0,4)+" m/s");
+                                    txt_dist.setText("Dist. "+dts.substring(0,3)+" m");
+                                    txt_velMed.setText("Vel. Med. "+vm.substring(0,4)+" m/s");
+                                    txt_cal.setText("Vel. "+cal.substring(0,3)+" Kal");
+                                    txt_time.setText("Tiempo: "+tiempo);
+
+
+
+
+                                    //Enviando Datos
+
+                                    String latitud = String.valueOf(mLastKnownLocation.getLatitude());
+                                    String longitud = String.valueOf(mLastKnownLocation.getLongitude());
+                                    String dist=String.valueOf(distanciaEnMetros);
+                                    //dist="100";
+
+                                    guardarLocacion( id, fechaYHora.toString(), latitud, longitud,dist);
+
                                 }
 
                                 else{
                                     Log.i("jjj","no se ha movido");
-                                }
-                            }
+                                } }
                             Log.i("xxx","Lat: "+ mLastKnownLocation.getLatitude()+ " Lomg: "+mLastKnownLocation.getLongitude() );
                           //  Log.i("jjj","fecha: "+ fecha);
 
@@ -397,7 +457,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
     public double getCalorias(){
         double kiloCalorias=0;
-        kiloCalorias=peso*(distanciaEnMetros/1000)*0.0175;
+        kiloCalorias=peso*(distanciaEnMetros/10);
         return kiloCalorias;
     }
 
@@ -471,10 +531,11 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-    public void guardarLocacion(String id, String fecha, String latitud, String longitud) {
+    public void guardarLocacion(String id, String fecha, String latitud, String longitud , String dist) {
         MiTask5 task = new MiTask5();
         //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
-        String url="http://https://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"$longitud="+longitud+"&fecha="+fecha;
+       // String url="http://jashin.orgfree.com/Examen/guardarDatos.php?id="+id+"&fecha="+fecha+"&latitud="+latitud+"&longitud="+longitud+"&velocidad=12&angulo=12";
+        String url="http://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+dist;
 
 
         task.execute(url);
