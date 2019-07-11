@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,11 +31,28 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
+import android.text.format.Time;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -103,6 +121,17 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
+    //Fecha
+
+    String fecha;
+    SimpleDateFormat dateFormat;
+
+    //Hora
+    Time horaMinutoSegundo;
+    String h;
+    String m;
+    String s;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +172,26 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
         // Retrieve the content view that renders the map.
        // setContentView(R.layout.activity_menu_main);
+        //Fecha
 
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        fecha = dateFormat.format(date);
+        Log.i("jjj","fecha: "+fecha);
+
+        //hora
+
+
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+        horaMinutoSegundo=today;
+        /*int hora = today.hour;
+        int min = today.minute;
+        int seg = today.second;
+        h = String.valueOf(hora);
+        m = String.valueOf(min);
+        s = String.valueOf(seg);
+        Log.i("jjj","hora: "+hora+"minuto: "+m+"s:"+s);*/
 
 
         // Construct a FusedLocationProviderClient.
@@ -260,16 +308,16 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                             punto=new LatLng(mLastKnownLocation.getLatitude(),
                                     mLastKnownLocation.getLongitude());
 
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(
                                     new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()),DEFAULT_ZOOM));
+                                            mLastKnownLocation.getLongitude())));
 
                             if (iniciado==true) {
 
                                 if(temp.latitude==-33.8523341 && temp.longitude==151.2106085 ){
                                     recorridoM = mMap.addMarker(new MarkerOptions()
                                             .position(punto)
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bici)));
+                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bici2)));
                                     // Creamos en un temporal el ultimo punto
                                     temp = punto;
                                     Log.i("jjj","inicial");
@@ -278,7 +326,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                                 else if(punto.latitude!=temp.latitude && punto.longitude!=temp.longitude ) {
                                     recorridoM = mMap.addMarker(new MarkerOptions()
                                             .position(punto)
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bici)));
+                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bici2)));
                                     // Creamos en un temporal el ultimo punto
                                     loc1.setLatitude(mLastKnownLocation.getLatitude());
                                     loc1.setLongitude(mLastKnownLocation.getLongitude());
@@ -306,6 +354,16 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                                         tiempoRecorridoSegundos=0;
                                     }
                                     caloriasTotales+=getCalorias();
+                                    //Hora
+                                    horaMinutoSegundo.setToNow();
+                                    int hora = horaMinutoSegundo.hour;
+                                    int min = horaMinutoSegundo.minute;
+                                    int seg = horaMinutoSegundo.second;
+                                    h = String.valueOf(hora);
+                                    m = String.valueOf(min);
+                                    s = String.valueOf(seg);
+                                    Log.i("jjj","hora: "+hora+"minuto: "+m+"s:"+s);
+
 
                                     Log.i("jjj","En recorrido::"+" distancia: "+distanciaEnMetros + " velocidad: "+ velocidad);
                                     temp=punto;
@@ -316,7 +374,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                                 }
                             }
                             Log.i("xxx","Lat: "+ mLastKnownLocation.getLatitude()+ " Lomg: "+mLastKnownLocation.getLongitude() );
-
+                          //  Log.i("jjj","fecha: "+ fecha);
 
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
@@ -332,6 +390,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
     public double getCalorias(){
         double kiloCalorias=0;
         kiloCalorias=peso*(distanciaEnMetros/1000)*0.0175;
@@ -362,6 +421,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
      * Handles the result of the request for location permissions.
      */
 
+
     private void updateLocationUI() {
         if (mMap == null) {
             return;
@@ -380,6 +440,91 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+
+    class MiTask5 extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String result = enviarDatosRegistro(strings[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            String stat = obtDatosJSON(s);
+            if (stat.equals("0")) {
+                Toast.makeText(getApplicationContext(), "Error al guardar datos", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "actualiza", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void guardarLocacion(String id, String fecha, String latitud, String longitud) {
+        MiTask5 task = new MiTask5();
+        //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
+        String url="http://https://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"$longitud="+longitud+"&fecha="+fecha;
+
+
+        task.execute(url);
+        //enviarDatosRegistro(url);
+
+    }
+
+    public String enviarDatosRegistro(String direccion) {
+
+        URL url = null;
+        String linea = "";
+        int respuesta = 0;
+        StringBuilder result = null;
+
+        try {
+            url = new URL(direccion);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestMethod("GET");
+            conexion.setDoOutput(true);
+            conexion.setDoInput(true);
+            respuesta = conexion.getResponseCode();//200, 404
+            result = new StringBuilder();
+
+            if (respuesta == HttpURLConnection.HTTP_OK) {
+                InputStream in = new BufferedInputStream(conexion.getInputStream()); //traemos la rpta
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //leemos la rpta
+
+                while ((linea = reader.readLine()) != null) {
+                    result.append(linea);
+                }
+
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+
+    public String obtDatosJSON(String respuesta) {
+        String res = "";
+
+        try {
+            JSONArray datos = new JSONArray(respuesta);
+            JSONObject jsonObject = datos.getJSONObject(0);
+            res = (jsonObject.getString("estatus"));
+        } catch (Exception e) {
+
+        }
+
+        return res;
     }
 
 }
