@@ -84,17 +84,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         //sendRegistrationToServer(token);
-        registerToken(token);
+        //registerToken(token);
     }
 
-    private void registerToken(String token) {
+    private void registerToken(String token,String id) {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
+                .add("id",id)
                 .add("token", token)
                 .build();
 
         Request request = new Request.Builder()
-                .url("http://192.168.1.62/fcm/register.php")
+                .url("https://bicikm.000webhostapp.com/registrarToken.php?id=&token=")
                 .post(body)
                 .build();
 
