@@ -22,8 +22,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
@@ -39,6 +42,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -53,6 +57,14 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -209,6 +221,18 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setFastestInterval(2000);
         locationRequest.setInterval(4000);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( MenuMainActivity.this,  new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String mToken = instanceIdResult.getToken();
+                Log.e("Token en foreground",mToken);
+                //infoTextView.append("\n" +  "token: " + mToken);
+                String id = "salazarmariot@gmail.com";
+                registerToken(mToken, id);
+            }
+        });
+
 
     }
     private View.OnClickListener iniciarRecorrido = new View.OnClickListener() {
@@ -525,6 +549,37 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         }
 
         return res;
+    }
+
+    private void registerToken(String token,String id) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("id",id)
+                .add("token", token)
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://bicikm.000webhostapp.com/registrarToken.php?id=&token=")
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.i(TAG, e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Log.i(TAG, response.body().string());
+            }
+        });
+        /*try {
+            client.newCall(request).execute();
+        }catch (IOException e){
+            e.printStackTrace();
+        }*/
+
     }
 
 }
