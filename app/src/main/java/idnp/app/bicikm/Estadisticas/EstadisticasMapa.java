@@ -1,4 +1,4 @@
-package idnp.app.bicikm;
+package idnp.app.bicikm.Estadisticas;
 
 import android.os.Bundle;
 
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import idnp.app.bicikm.Objetos.Recorrido;
+import idnp.app.bicikm.R;
 
 public class EstadisticasMapa extends AppCompatActivity implements OnMapReadyCallback {
     TextView idTxt;

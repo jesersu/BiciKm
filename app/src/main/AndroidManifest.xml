@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".EstadisticasMapa"
+            android:name=".Estadisticas.EstadisticasMapa"
             android:label="@string/title_activity_estadisticas_mapa"></activity>
 
         <uses-library
@@ -27,7 +27,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAZTcFyPGvj6_O5Tf3hxqG1-0jCTKRHdcQ" />
 
-        <activity android:name=".MenuMainActivity">
+        <activity android:name=".Inicio.MenuMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,13 +35,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ServiciosActivity"
+            android:name=".Servicios.ServiciosActivity"
             android:label="@string/title_activity_servicios" /> <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <activity
-            android:name=".EstadisticasActivity"
+            android:name=".Estadisticas.EstadisticasActivity"
             android:label="@string/title_activity_estadisticas" />
         <activity
-            android:name=".RecompensasActivity"
+            android:name=".Recompensas.RecompensasActivity"
             android:label="@string/title_activity_recompensas" />
         <activity
             android:name=".Login"

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import idnp.app.bicikm.Inicio.MenuMainActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnAceptar;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                startActivity(new Intent((getBaseContext()), MenuMainActivity.class));
-                Intent a = new Intent(MainActivity.this,MenuMainActivity.class);
+                Intent a = new Intent(MainActivity.this, MenuMainActivity.class);
                 startActivity(a);
             }
         });

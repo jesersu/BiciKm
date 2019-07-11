@@ -1,4 +1,4 @@
-package idnp.app.bicikm;
+package idnp.app.bicikm.Inicio;
 
 import android.Manifest;
 import android.content.Intent;
@@ -36,7 +36,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -53,6 +52,11 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import idnp.app.bicikm.Estadisticas.EstadisticasActivity;
+import idnp.app.bicikm.R;
+import idnp.app.bicikm.Recompensas.RecompensasActivity;
+import idnp.app.bicikm.Servicios.ServiciosActivity;
 
 public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -145,15 +149,15 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                     case R.id.navigation_home:
                         break;
                     case R.id.navigation_estadisticas:
-                        Intent a = new Intent(MenuMainActivity.this,EstadisticasActivity.class);
+                        Intent a = new Intent(MenuMainActivity.this, EstadisticasActivity.class);
                         startActivity(a);
                         break;
                     case R.id.navigation_recompensas:
-                        Intent b = new Intent(MenuMainActivity.this,RecompensasActivity.class);
+                        Intent b = new Intent(MenuMainActivity.this, RecompensasActivity.class);
                         startActivity(b);
                         break;
                     case R.id.navigation_servicios:
-                        Intent c = new Intent(MenuMainActivity.this,ServiciosActivity.class);
+                        Intent c = new Intent(MenuMainActivity.this, ServiciosActivity.class);
                         startActivity(c);
                         break;
                 }

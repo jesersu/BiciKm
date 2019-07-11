@@ -1,4 +1,4 @@
-package idnp.app.bicikm;
+package idnp.app.bicikm.Estadisticas;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,12 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +29,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import idnp.app.bicikm.Inicio.MenuMainActivity;
 import idnp.app.bicikm.Objetos.Recorrido;
+import idnp.app.bicikm.R;
+import idnp.app.bicikm.Recompensas.RecompensasActivity;
+import idnp.app.bicikm.Servicios.ServiciosActivity;
 
 public class EstadisticasActivity extends AppCompatActivity {
     ListView listaDet;
@@ -50,17 +52,17 @@ public class EstadisticasActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        Intent a = new Intent(EstadisticasActivity.this,MenuMainActivity.class);
+                        Intent a = new Intent(EstadisticasActivity.this, MenuMainActivity.class);
                         startActivity(a);
                         break;
                     case R.id.navigation_estadisticas:
                         break;
                     case R.id.navigation_recompensas:
-                        Intent b = new Intent(EstadisticasActivity.this,RecompensasActivity.class);
+                        Intent b = new Intent(EstadisticasActivity.this, RecompensasActivity.class);
                         startActivity(b);
                         break;
                     case R.id.navigation_servicios:
-                        Intent c = new Intent(EstadisticasActivity.this,ServiciosActivity.class);
+                        Intent c = new Intent(EstadisticasActivity.this, ServiciosActivity.class);
                         startActivity(c);
                         break;
                 }
