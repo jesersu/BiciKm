@@ -12,32 +12,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MenuMainActivity extends AppCompatActivity {
-   /* private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    Intent myIntent1 = new Intent(MenuMainActivity.this, MenuMainActivity.class);
-                    startActivity(myIntent1);
-                    return true;
-                case R.id.navigation_estadisticas:
-                    Intent myIntent2 = new Intent(MenuMainActivity.this, EstadisticasActivity.class);
-                    startActivity(myIntent2);
-                    return true;
-                case R.id.navigation_recompensas:
-                    Intent myIntent3 = new Intent(MenuMainActivity.this, RecompensasActivity.class);
-                    startActivity(myIntent3);
-                    return true;
-                case R.id.navigation_servicios:
-                    Intent myIntent4 = new Intent(MenuMainActivity.this, ServiciosActivity.class);
-                    startActivity(myIntent4);
-                    return true;
-            }
-            return false;
-        }
-    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
