@@ -1,6 +1,7 @@
 package idnp.app.bicikm.Objetos;
 
 public class Recompensa {
+    private int id;
     private String titulo;
     private String empresa;
     private String detalle;
@@ -46,4 +47,9 @@ public class Recompensa {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public int getId() {
+        return id;
+    }
+
 }
