@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:textSize="30sp"
-            android:id="@+id/tituloMainMenu"
+            android:id="@+id/tituloEstadisticas"
             android:textAlignment="center"/>
 
     </RelativeLayout>
