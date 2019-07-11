@@ -60,6 +60,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
 
     String id="salazarmariot@gmail.com";
+    //String id;
     Button inicio;
     private LocationRequest locationRequest;
     private boolean iniciado=false;
@@ -97,7 +98,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
     int tiempoRecorridoSegundos=0;
     int tiempoRecorridoMinutos=0;
-    int peso;
+    int peso=63;
     double caloriasTotales=0;
 
     //Velocidad Media:
@@ -147,6 +148,10 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
     TextView txt_cal;
     TextView txt_time;
 
+    //Usuario
+
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +192,10 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
         // Retrieve the content view that renders the map.
        // setContentView(R.layout.activity_menu_main);
+
+        //ID DE USUARIO
+        //id = getIntent().getStringExtra("usuarioId");
+        token = getIntent().getStringExtra("usuarioToken");
 
         //Estadistica:
         txt_vel=findViewById(R.id.txt_vel);
