@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="idnp.app.bicikm">
+
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,34 +15,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ServiciosActivity"
-            android:label="@string/title_activity_servicios"></activity>
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
+            android:name=".Estadisticas.EstadisticasMapa"
+            android:label="@string/title_activity_estadisticas_mapa" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" /> <!-- The API key for Google Maps-based APIs. -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAZTcFyPGvj6_O5Tf3hxqG1-0jCTKRHdcQ" />
+
+        <activity android:name=".Inicio.MenuMainActivity" />
         <activity
-            android:name=".EstadisticasActivity"
-            android:label="@string/title_activity_estadisticas"/>
-        <activity
-            android:name=".RecompensasActivity"
-            android:label="@string/title_activity_recompensas"/>
-        <activity
-            android:name=".MenuMainActivity"
-            android:label="@string/title_activity_menu_main" />
-        <activity android:name=".MainActivity">
+            android:name=".Login"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Servicios.ServiciosActivity"
+            android:label="@string/title_activity_servicios" /> <!-- android:theme="@style/AppTheme.NoActionBar" -->
+        <activity
+            android:name=".Estadisticas.EstadisticasActivity"
+            android:label="@string/title_activity_estadisticas" />
+        <activity
+            android:name=".Recompensas.RecompensasActivity"
+            android:label="@string/title_activity_recompensas" />
+        <activity android:name=".MainActivity" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

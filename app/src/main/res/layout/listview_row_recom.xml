@@ -6,7 +6,7 @@
     android:padding="@dimen/activity_horizontal_margin">
 
     <TextView
-        android:id="@+id/fecha"
+        android:id="@+id/recomtitulo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
@@ -16,14 +16,28 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/latitud"
+        android:id="@+id/recomdetalle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:textColor="@color/colorAccent" />
 
     <TextView
-        android:id="@+id/longitud"
+        android:id="@+id/recomempresa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5d5d5d"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/recomcosto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5d5d5d"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/recomfoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
