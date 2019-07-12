@@ -1,8 +1,10 @@
-package idnp.app.bicikm;
+package idnp.app.bicikm.Inicio;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,11 +24,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
@@ -42,7 +41,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -58,16 +56,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import idnp.app.bicikm.Estadisticas.EstadisticasActivity;
+import idnp.app.bicikm.R;
+import idnp.app.bicikm.Recompensas.RecompensasActivity;
+import idnp.app.bicikm.Servicios.ServiciosActivity;
 
 public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+
+    String id="salazarmariot@gmail.com";
+    //String id;
     Button inicio;
     private LocationRequest locationRequest;
     private boolean iniciado=false;
@@ -105,7 +103,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
     int tiempoRecorridoSegundos=0;
     int tiempoRecorridoMinutos=0;
-    int peso;
+    int peso=63;
     double caloriasTotales=0;
 
     //Velocidad Media:
@@ -144,6 +142,21 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
     String m;
     String s;
 
+    //Fecha y hora
+
+    String fechaYHora;
+
+    //Texto de Velociadad
+    TextView txt_vel;
+    TextView txt_velMed;
+    TextView txt_dist;
+    TextView txt_cal;
+    TextView txt_time;
+
+    //Usuario
+
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,15 +170,15 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                     case R.id.navigation_home:
                         break;
                     case R.id.navigation_estadisticas:
-                        Intent a = new Intent(MenuMainActivity.this,EstadisticasActivity.class);
+                        Intent a = new Intent(MenuMainActivity.this, EstadisticasActivity.class);
                         startActivity(a);
                         break;
                     case R.id.navigation_recompensas:
-                        Intent b = new Intent(MenuMainActivity.this,RecompensasActivity.class);
+                        Intent b = new Intent(MenuMainActivity.this, RecompensasActivity.class);
                         startActivity(b);
                         break;
                     case R.id.navigation_servicios:
-                        Intent c = new Intent(MenuMainActivity.this,ServiciosActivity.class);
+                        Intent c = new Intent(MenuMainActivity.this, ServiciosActivity.class);
                         startActivity(c);
                         break;
                 }
@@ -184,11 +197,22 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
         // Retrieve the content view that renders the map.
        // setContentView(R.layout.activity_menu_main);
+
+        //ID DE USUARIO
+        //id = getIntent().getStringExtra("usuarioId");
+        token = getIntent().getStringExtra("usuarioToken");
+
+        //Estadistica:
+        txt_vel=findViewById(R.id.txt_vel);
+        txt_cal=findViewById(R.id.txt_calorias);
+        txt_velMed=findViewById(R.id.txt_velMed);
+        txt_dist=findViewById(R.id.txt_dist);
+        txt_time=findViewById(R.id.txt_time);
         //Fecha
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
-        fecha = dateFormat.format(date);
+        fecha = (String)dateFormat.format(date);
         Log.i("jjj","fecha: "+fecha);
 
         //hora
@@ -222,23 +246,15 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         locationRequest.setFastestInterval(2000);
         locationRequest.setInterval(4000);
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( MenuMainActivity.this,  new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String mToken = instanceIdResult.getToken();
-                Log.e("Token en foreground",mToken);
-                //infoTextView.append("\n" +  "token: " + mToken);
-                String id = "salazarmariot@gmail.com";
-                registerToken(mToken, id);
-            }
-        });
-
-
     }
     private View.OnClickListener iniciarRecorrido = new View.OnClickListener() {
         public void onClick(View v) {
 
             if(iniciado==false ){
+                txt_vel.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_velMed.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_dist.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+                txt_cal.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
                 if(contI==0){
 
                     ini = mMap.addMarker(new MarkerOptions()
@@ -387,16 +403,41 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
                                     m = String.valueOf(min);
                                     s = String.valueOf(seg);
                                     Log.i("jjj","hora: "+hora+"minuto: "+m+"s:"+s);
+                                    fechaYHora=fecha+" "+h+":"+m+":"+s;
 
 
                                     Log.i("jjj","En recorrido::"+" distancia: "+distanciaEnMetros + " velocidad: "+ velocidad);
                                     temp=punto;
+                                    //Estadistica
+                                    String velo=String.valueOf(velocidad);
+                                    String dts=String.valueOf(distanciaEnMetros);
+                                    String vm=String.valueOf(velocidadMedia);
+                                    String cal=String.valueOf(getCalorias());
+                                    String tiempo=String.valueOf(h)+":"+String.valueOf(m)+":"+String.valueOf(s);
+
+                                    txt_vel.setText("Vel. "+velo.substring(0,4)+" m/s");
+                                    txt_dist.setText("Dist. "+dts.substring(0,3)+" m");
+                                    txt_velMed.setText("Vel. Med. "+vm.substring(0,4)+" m/s");
+                                    txt_cal.setText("Vel. "+cal.substring(0,3)+" Kal");
+                                    txt_time.setText("Tiempo: "+tiempo);
+
+
+
+
+                                    //Enviando Datos
+
+                                    String latitud = String.valueOf(mLastKnownLocation.getLatitude());
+                                    String longitud = String.valueOf(mLastKnownLocation.getLongitude());
+                                    String dist=String.valueOf(distanciaEnMetros);
+                                    //dist="100";
+
+                                    guardarLocacion( id, fechaYHora.toString(), latitud, longitud,dist);
+
                                 }
 
                                 else{
                                     Log.i("jjj","no se ha movido");
-                                }
-                            }
+                                } }
                             Log.i("xxx","Lat: "+ mLastKnownLocation.getLatitude()+ " Lomg: "+mLastKnownLocation.getLongitude() );
                           //  Log.i("jjj","fecha: "+ fecha);
 
@@ -417,7 +458,7 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
 
     public double getCalorias(){
         double kiloCalorias=0;
-        kiloCalorias=peso*(distanciaEnMetros/1000)*0.0175;
+        kiloCalorias=peso*(distanciaEnMetros/10);
         return kiloCalorias;
     }
 
@@ -491,10 +532,11 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-    public void guardarLocacion(String id, String fecha, String latitud, String longitud) {
+    public void guardarLocacion(String id, String fecha, String latitud, String longitud , String dist) {
         MiTask5 task = new MiTask5();
         //String url = "guardarDatos.php?id=" + id + "&fecha=" + fecha + "&latitud=" + latitud + "&longitud=" + longitud + "&velocidad=14&angulo=90 ";
-        String url="http://https://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"$longitud="+longitud+"&fecha="+fecha;
+       // String url="http://jashin.orgfree.com/Examen/guardarDatos.php?id="+id+"&fecha="+fecha+"&latitud="+latitud+"&longitud="+longitud+"&velocidad=12&angulo=12";
+        String url="http://bicikm.000webhostapp.com/registrarRecorrido.php?id="+id+"&latitud="+latitud+"&longitud="+longitud+"&fecha="+fecha+"&distancia="+dist;
 
 
         task.execute(url);
@@ -549,37 +591,6 @@ public class MenuMainActivity extends AppCompatActivity implements OnMapReadyCal
         }
 
         return res;
-    }
-
-    private void registerToken(String token,String id) {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = new FormBody.Builder()
-                .add("id",id)
-                .add("token", token)
-                .build();
-
-        Request request = new Request.Builder()
-                .url("https://bicikm.000webhostapp.com/registrarToken.php?id=&token=")
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.i(TAG, e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                Log.i(TAG, response.body().string());
-            }
-        });
-        /*try {
-            client.newCall(request).execute();
-        }catch (IOException e){
-            e.printStackTrace();
-        }*/
-
     }
 
 }
