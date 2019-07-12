@@ -84,7 +84,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         //sendRegistrationToServer(token);
-        //registerToken(token);
+        String id="salazarmariot@gmail.com";
+        registerToken(token,id);
     }
 
     private void registerToken(String token,String id) {
